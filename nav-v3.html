@@ -9,6 +9,57 @@
   <style>
     * { font-family: 'Figtree', sans-serif; }
     body { margin: 0; }
+
+    /* Main nav: collapsed by default, expands on hover */
+    #main-nav {
+      width: 56px;
+      overflow-x: hidden;
+      overflow-y: auto;
+      transition: width 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+    }
+    #main-nav:hover {
+      width: 220px;
+    }
+
+    /* Labels are hidden when collapsed */
+    .nav-label {
+      opacity: 0;
+      white-space: nowrap;
+      pointer-events: none;
+      transition: opacity 0.1s ease 0s;
+    }
+    #main-nav:hover .nav-label {
+      opacity: 1;
+      pointer-events: auto;
+      transition: opacity 0.18s ease 0.12s;
+    }
+
+    /* Center icons in 56px collapsed state:
+       container px-3 = 12px + item padding-left = total offset.
+       For 18px icon centered in 56px: icon start = 28-9 = 19px → item padding = 19-12 = 7px */
+    #main-nav .nav-item {
+      padding-left: 7px;
+      padding-right: 7px;
+      transition: padding-left 0.3s cubic-bezier(0.4, 0, 0.2, 1),
+                  padding-right 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+    }
+    #main-nav:hover .nav-item {
+      padding-left: 10px;
+      padding-right: 10px;
+    }
+
+    /* Center 32px product switcher icon in 56px nav:
+       container px-3 = 12px → button padding-left 0 → icon starts at 12px, center at 28px */
+    #main-nav .switcher-btn {
+      padding-left: 0;
+      padding-right: 0;
+      transition: padding-left 0.3s cubic-bezier(0.4, 0, 0.2, 1),
+                  padding-right 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+    }
+    #main-nav:hover .switcher-btn {
+      padding-left: 8px;
+      padding-right: 8px;
+    }
   </style>
 </head>
 <body class="h-screen flex flex-col overflow-hidden bg-[#f2f1f8]">
@@ -30,7 +81,6 @@
     <div class="flex-1 flex justify-center px-8">
       <div class="relative w-full max-w-xl">
         <div class="absolute inset-y-0 left-3 flex items-center pointer-events-none gap-1.5">
-          <!-- AI sparkle prefix -->
           <svg width="16" height="16" viewBox="0 0 24 24" fill="none">
             <path d="M12 3L13.2 10.8L21 12L13.2 13.2L12 21L10.8 13.2L3 12L10.8 10.8Z" fill="#ff492c"/>
             <path d="M19 5L19.6 8L22 8.6L19.6 9.2L19 12L18.4 9.2L16 8.6L18.4 8Z" fill="#ff492c" opacity="0.6"/>
@@ -44,7 +94,6 @@
 
     <!-- Right utility area -->
     <div class="flex items-center gap-3 flex-shrink-0">
-      <!-- Help -->
       <button class="w-8 h-8 rounded-full flex items-center justify-center hover:bg-gray-100 transition-colors text-gray-500">
         <svg width="17" height="17" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round">
           <circle cx="12" cy="12" r="10"/>
@@ -52,7 +101,6 @@
           <circle cx="12" cy="17" r="0.5" fill="currentColor"/>
         </svg>
       </button>
-      <!-- Notifications + badge -->
       <button class="relative w-8 h-8 rounded-full flex items-center justify-center hover:bg-gray-100 transition-colors text-gray-500">
         <svg width="17" height="17" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round">
           <path d="M18 8A6 6 0 006 8c0 7-3 9-3 9h18s-3-2-3-9"/>
@@ -62,9 +110,7 @@
           <span class="text-white text-[9px] font-bold leading-none">1</span>
         </span>
       </button>
-      <!-- Divider -->
       <div class="w-px h-6 bg-[#dfdfe2]"></div>
-      <!-- Account -->
       <button class="flex items-center gap-2 hover:opacity-80 transition-opacity">
         <div class="w-8 h-8 rounded-full bg-[#1b1927] flex items-center justify-center flex-shrink-0">
           <span class="text-white text-xs font-bold">JA</span>
@@ -80,25 +126,24 @@
   <!-- Body: main nav + sub nav + content -->
   <div class="flex flex-1 overflow-hidden">
 
-    <!-- ───── Main nav (dark) ───── -->
-    <nav class="flex flex-col flex-shrink-0 overflow-y-auto"
-      style="width: 220px; background: #1b1927; border-right: 1px solid rgba(255,255,255,0.06);">
+    <!-- ───── Main nav (dark, collapses to icons) ───── -->
+    <nav id="main-nav" class="flex flex-col flex-shrink-0"
+      style="background: #1b1927; border-right: 1px solid rgba(255,255,255,0.06);">
 
       <!-- Product switcher -->
       <div class="px-3 pt-3 pb-1">
-        <button class="w-full flex items-center gap-2.5 px-2 py-2 rounded-lg hover:bg-white/8 transition-colors group">
-          <!-- Company avatar -->
+        <button class="switcher-btn w-full flex items-center gap-2.5 py-2 rounded-lg hover:bg-white/8 transition-colors group">
           <div class="w-8 h-8 rounded-lg flex items-center justify-center flex-shrink-0 bg-gradient-to-br from-teal-400 to-cyan-600">
             <svg width="16" height="16" viewBox="0 0 24 24" fill="none">
               <path d="M3 9l9-7 9 7v11a2 2 0 01-2 2H5a2 2 0 01-2-2z" fill="white" fill-opacity="0.9"/>
               <polyline points="9 22 9 12 15 12 15 22" stroke="rgba(255,255,255,0.6)" stroke-width="1.5" fill="none"/>
             </svg>
           </div>
-          <div class="flex flex-col items-start min-w-0 flex-1">
+          <div class="flex flex-col items-start min-w-0 flex-1 nav-label">
             <span class="text-sm font-semibold text-white truncate leading-tight">ACME Cloud</span>
             <span class="text-[10px] font-semibold text-green-400 leading-tight mt-0.5 bg-green-900/50 px-1.5 py-0.5 rounded-full">Core</span>
           </div>
-          <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="rgba(255,255,255,0.4)" stroke-width="2.5" stroke-linecap="round" class="flex-shrink-0">
+          <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="rgba(255,255,255,0.4)" stroke-width="2.5" stroke-linecap="round" class="flex-shrink-0 nav-label">
             <polyline points="6 9 12 15 18 9"/>
           </svg>
         </button>
@@ -108,77 +153,77 @@
       <div class="flex flex-col gap-0.5 px-3 py-2 flex-1">
 
         <!-- Dashboard -->
-        <a href="#" class="flex items-center gap-2.5 px-2.5 py-2 rounded-lg text-sm text-white/60 hover:text-white hover:bg-white/8 group transition-colors">
-          <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.75" stroke-linecap="round">
+        <a href="#" class="nav-item flex items-center gap-2.5 py-2 rounded-lg text-sm text-white/60 hover:text-white hover:bg-white/8 transition-colors">
+          <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.75" stroke-linecap="round" class="flex-shrink-0">
             <rect x="3" y="3" width="7" height="7" rx="1.5"/>
             <rect x="14" y="3" width="7" height="7" rx="1.5"/>
             <rect x="3" y="14" width="7" height="7" rx="1.5"/>
             <rect x="14" y="14" width="7" height="7" rx="1.5"/>
           </svg>
-          Dashboard
+          <span class="nav-label">Dashboard</span>
         </a>
 
         <!-- Product Profile -->
-        <a href="#" class="flex items-center gap-2.5 px-2.5 py-2 rounded-lg text-sm text-white/60 hover:text-white hover:bg-white/8 group transition-colors">
-          <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.75" stroke-linecap="round">
+        <a href="#" class="nav-item flex items-center gap-2.5 py-2 rounded-lg text-sm text-white/60 hover:text-white hover:bg-white/8 transition-colors">
+          <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.75" stroke-linecap="round" class="flex-shrink-0">
             <circle cx="12" cy="8" r="4"/>
             <path d="M4 20c0-4 3.6-7 8-7s8 3 8 7"/>
             <path d="M18 2l-2 2 2 2 2-2-2-2z"/>
           </svg>
-          Product Profile
+          <span class="nav-label">Product Profile</span>
         </a>
 
-        <!-- Reviews — active/selected -->
-        <a href="#" class="flex items-center gap-2.5 px-2.5 py-2 rounded-lg text-sm font-semibold bg-[#2e2b48] text-[#a89de8] transition-colors"
+        <!-- Reviews — active -->
+        <a href="#" class="nav-item flex items-center gap-2.5 py-2 rounded-lg text-sm font-semibold bg-[#2e2b48] text-[#a89de8] transition-colors"
           style="border: 1px solid rgba(168,157,232,0.15);">
-          <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.75" stroke-linecap="round">
+          <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.75" stroke-linecap="round" class="flex-shrink-0">
             <polygon points="12 2 15.09 8.26 22 9.27 17 14.14 18.18 21.02 12 17.77 5.82 21.02 7 14.14 2 9.27 8.91 8.26 12 2"/>
           </svg>
-          Reviews
+          <span class="nav-label">Reviews</span>
         </a>
 
         <!-- Marketing Tools -->
-        <a href="#" class="flex items-center gap-2.5 px-2.5 py-2 rounded-lg text-sm text-white/60 hover:text-white hover:bg-white/8 group transition-colors">
-          <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.75" stroke-linecap="round">
+        <a href="#" class="nav-item flex items-center gap-2.5 py-2 rounded-lg text-sm text-white/60 hover:text-white hover:bg-white/8 transition-colors">
+          <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.75" stroke-linecap="round" class="flex-shrink-0">
             <path d="M3 11l19-9-9 19-2-8-8-2z"/>
           </svg>
-          Marketing Tools
+          <span class="nav-label">Marketing Tools</span>
         </a>
 
         <!-- Integrations -->
-        <a href="#" class="flex items-center gap-2.5 px-2.5 py-2 rounded-lg text-sm text-white/60 hover:text-white hover:bg-white/8 group transition-colors">
-          <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.75" stroke-linecap="round">
+        <a href="#" class="nav-item flex items-center gap-2.5 py-2 rounded-lg text-sm text-white/60 hover:text-white hover:bg-white/8 transition-colors">
+          <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.75" stroke-linecap="round" class="flex-shrink-0">
             <path d="M20.59 13.41l-7.17 7.17a2 2 0 01-2.83 0L2 12V2h10l8.59 8.59a2 2 0 010 2.82z"/>
             <line x1="7" y1="7" x2="7.01" y2="7"/>
           </svg>
-          Integrations
+          <span class="nav-label">Integrations</span>
         </a>
 
         <!-- Divider -->
         <div class="h-px bg-white/10 my-1.5"></div>
 
         <!-- Buyer Intent — locked -->
-        <a href="#" class="flex items-center gap-2.5 px-2.5 py-2 rounded-lg text-sm text-white/35 hover:text-white/50 hover:bg-white/5 group transition-colors">
-          <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.75" stroke-linecap="round">
+        <a href="#" class="nav-item flex items-center gap-2.5 py-2 rounded-lg text-sm text-white/35 hover:text-white/50 hover:bg-white/5 transition-colors">
+          <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.75" stroke-linecap="round" class="flex-shrink-0">
             <path d="M12 2L4 8.5l2 12h12l2-12z"/>
             <path d="M4 8.5h16"/>
             <path d="M8 8.5L12 2l4 6.5"/>
           </svg>
-          <span class="flex-1">Buyer Intent</span>
-          <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" class="opacity-50">
+          <span class="flex-1 nav-label">Buyer Intent</span>
+          <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" class="opacity-50 nav-label flex-shrink-0">
             <rect x="3" y="11" width="18" height="11" rx="2" ry="2"/>
             <path d="M7 11V7a5 5 0 0110 0v4"/>
           </svg>
         </a>
 
         <!-- Market Intelligence — locked -->
-        <a href="#" class="flex items-center gap-2.5 px-2.5 py-2 rounded-lg text-sm text-white/35 hover:text-white/50 hover:bg-white/5 group transition-colors">
-          <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.75" stroke-linecap="round">
+        <a href="#" class="nav-item flex items-center gap-2.5 py-2 rounded-lg text-sm text-white/35 hover:text-white/50 hover:bg-white/5 transition-colors">
+          <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.75" stroke-linecap="round" class="flex-shrink-0">
             <circle cx="12" cy="12" r="10"/>
             <path d="M2 12h20M12 2a15.3 15.3 0 014 10 15.3 15.3 0 01-4 10 15.3 15.3 0 01-4-10 15.3 15.3 0 014-10z"/>
           </svg>
-          <span class="flex-1">Market Intelligence</span>
-          <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" class="opacity-50">
+          <span class="flex-1 nav-label">Market Intelligence</span>
+          <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" class="opacity-50 nav-label flex-shrink-0">
             <rect x="3" y="11" width="18" height="11" rx="2" ry="2"/>
             <path d="M7 11V7a5 5 0 0110 0v4"/>
           </svg>
@@ -188,34 +233,25 @@
         <div class="h-px bg-white/10 my-1.5"></div>
 
         <!-- Payments -->
-        <a href="#" class="flex items-center gap-2.5 px-2.5 py-2 rounded-lg text-sm text-white/60 hover:text-white hover:bg-white/8 group transition-colors">
-          <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.75" stroke-linecap="round">
+        <a href="#" class="nav-item flex items-center gap-2.5 py-2 rounded-lg text-sm text-white/60 hover:text-white hover:bg-white/8 transition-colors">
+          <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.75" stroke-linecap="round" class="flex-shrink-0">
             <rect x="1" y="4" width="22" height="16" rx="2" ry="2"/>
             <line x1="1" y1="10" x2="23" y2="10"/>
           </svg>
-          Payments
+          <span class="nav-label">Payments</span>
         </a>
 
         <!-- Org Settings -->
-        <a href="#" class="flex items-center gap-2.5 px-2.5 py-2 rounded-lg text-sm text-white/60 hover:text-white hover:bg-white/8 group transition-colors">
-          <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.75" stroke-linecap="round">
+        <a href="#" class="nav-item flex items-center gap-2.5 py-2 rounded-lg text-sm text-white/60 hover:text-white hover:bg-white/8 transition-colors">
+          <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.75" stroke-linecap="round" class="flex-shrink-0">
             <path d="M17 21v-2a4 4 0 00-4-4H5a4 4 0 00-4 4v2"/>
             <circle cx="9" cy="7" r="4"/>
             <path d="M23 21v-2a4 4 0 00-3-3.87"/>
             <path d="M16 3.13a4 4 0 010 7.75"/>
           </svg>
-          Org Settings
+          <span class="nav-label">Org Settings</span>
         </a>
 
-      </div>
-
-      <!-- Collapse button -->
-      <div class="flex-shrink-0 px-3 pb-3 pt-1">
-        <button class="w-8 h-8 rounded-full bg-white/8 hover:bg-white/12 flex items-center justify-center transition-colors border border-white/10">
-          <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="rgba(255,255,255,0.5)" stroke-width="2.5" stroke-linecap="round">
-            <path d="M15 18l-6-6 6-6"/>
-          </svg>
-        </button>
       </div>
 
     </nav>
@@ -227,7 +263,6 @@
       <!-- Section header -->
       <div class="px-4 py-4 border-b border-[#dfdfe2]" style="border-width: 0.5px;">
         <div class="flex items-start gap-3 mb-2">
-          <!-- Reviews colorful icon -->
           <div class="w-10 h-10 rounded-xl flex items-center justify-center flex-shrink-0 bg-gradient-to-br from-blue-400 to-purple-500">
             <svg width="20" height="20" viewBox="0 0 24 24" fill="none">
               <polygon points="12 2 15.09 8.26 22 9.27 17 14.14 18.18 21.02 12 17.77 5.82 21.02 7 14.14 2 9.27 8.91 8.26 12 2" fill="white" fill-opacity="0.9"/>
@@ -286,7 +321,7 @@
         <!-- Divider -->
         <div class="h-px bg-gray-100 my-2 mx-1"></div>
 
-        <!-- View Latest Reviews — external link -->
+        <!-- View Latest Reviews -->
         <a href="#" class="flex items-center gap-2.5 px-3 py-2 rounded-lg text-sm text-[#4b4a52] hover:bg-gray-50 hover:text-[#201f23] transition-colors">
           <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="#9ca3af" stroke-width="2" stroke-linecap="round">
             <path d="M18 13v6a2 2 0 01-2 2H5a2 2 0 01-2-2V8a2 2 0 012-2h6"/>
