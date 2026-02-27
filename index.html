@@ -1,0 +1,61 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>G2 — myG2 Navigation Explorations</title>
+  <script src="https://cdn.tailwindcss.com"></script>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
+  <style>
+    body { font-family: 'Inter', sans-serif; background: #f5f4fb; }
+    .g2-purple { color: #5746b2; }
+    .bg-g2 { background: #5746b2; }
+    .bg-g2-light { background: #ebe9f6; }
+  </style>
+</head>
+<body class="min-h-screen flex flex-col">
+
+  <header class="bg-white border-b border-gray-100 px-8 py-5">
+    <div class="max-w-4xl mx-auto flex items-center gap-3">
+      <div class="w-8 h-8 rounded-lg bg-g2 flex items-center justify-center">
+        <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="white" stroke-width="2.5"><path d="M3 9l9-7 9 7v11a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2z"/><polyline points="9 22 9 12 15 12 15 22"/></svg>
+      </div>
+      <div>
+        <p class="font-semibold text-gray-900">G2 — myG2 Navigation</p>
+        <p class="text-xs text-gray-400">Navigation explorations · Work in progress</p>
+      </div>
+    </div>
+  </header>
+
+  <main class="flex-1 max-w-4xl mx-auto px-8 py-16 w-full">
+
+    <div class="mb-12">
+      <p class="text-xs font-bold tracking-widest uppercase text-gray-400 mb-3">What is this?</p>
+      <h1 class="text-3xl font-bold text-gray-900 mb-4">myG2 Navigation Options</h1>
+      <p class="text-gray-500 max-w-2xl text-base leading-relaxed">
+        Static explorations of different navigation directions for myG2. Each version below represents a distinct design approach. No backend, no real data — the goal is to react to the patterns before wiring anything up.
+      </p>
+    </div>
+
+    <div class="grid grid-cols-1 gap-6 md:grid-cols-2" id="versions">
+      <!-- Version cards will be added here as variants are built -->
+      <div class="group block bg-white rounded-2xl border border-dashed border-gray-200 p-8 flex flex-col items-center justify-center text-center min-h-48">
+        <p class="text-sm text-gray-400">Versions coming soon</p>
+      </div>
+    </div>
+
+    <div class="mt-12 bg-white rounded-2xl border border-gray-100 p-6">
+      <p class="text-xs font-bold tracking-widest uppercase text-gray-400 mb-3">Context</p>
+      <p class="text-sm text-gray-500 leading-relaxed max-w-2xl">These are static navigation explorations — no backend, no real data. The goal is to evaluate layout and structure before any implementation work begins.</p>
+    </div>
+
+  </main>
+
+  <footer class="border-t border-gray-100 bg-white px-8 py-5">
+    <div class="max-w-4xl mx-auto">
+      <p class="text-xs text-gray-400">G2 myG2 Navigation · Component playground · <a href="https://github.com/abedell-g2/g2-nav-explorations" class="hover:text-gray-600">github.com/abedell-g2/g2-nav-explorations</a></p>
+    </div>
+  </footer>
+
+</body>
+</html>
