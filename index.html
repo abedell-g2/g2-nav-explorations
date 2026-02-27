@@ -38,10 +38,145 @@
     </div>
 
     <div class="grid grid-cols-1 gap-6 md:grid-cols-2" id="versions">
-      <!-- Version cards will be added here as variants are built -->
+
+      <!-- V1: Icon Sidebar -->
+      <a href="nav-v1.html" class="group block bg-white rounded-2xl border border-gray-100 shadow-sm hover:shadow-md hover:border-purple-200 transition-all overflow-hidden">
+        <div class="bg-[#1b1927] px-6 py-8 relative overflow-hidden">
+          <!-- Mini sidebar preview -->
+          <div class="absolute left-0 top-0 bottom-0 w-10 bg-white/5 flex flex-col items-center py-3 gap-2">
+            <div class="w-6 h-6 rounded-full bg-[#ff492c] flex-shrink-0"></div>
+            <div class="w-4 h-4 rounded bg-white/20 flex-shrink-0"></div>
+            <div class="w-px h-3 bg-white/20 flex-shrink-0"></div>
+            <div class="w-5 h-5 rounded bg-[#f2f0f9]/30 flex-shrink-0"></div>
+            <div class="w-5 h-5 rounded bg-white/10 flex-shrink-0"></div>
+            <div class="w-5 h-5 rounded bg-white/10 flex-shrink-0"></div>
+            <div class="w-5 h-5 rounded bg-white/10 flex-shrink-0"></div>
+          </div>
+          <div class="ml-12">
+            <div class="inline-flex items-center gap-1.5 bg-white/10 text-white/70 text-xs font-semibold px-2.5 py-1 rounded-full mb-4">
+              <div class="w-1.5 h-1.5 rounded-full bg-orange-400"></div>
+              Icon-only sidebar
+            </div>
+            <p class="text-white font-bold text-xl mb-1">V1 — Collapsed Nav</p>
+            <p class="text-white/50 text-sm">Minimal 48px sidebar, icons only. Utility bar floats top-right. G2.ai prompt anchored bottom-right.</p>
+          </div>
+        </div>
+        <div class="px-6 py-5">
+          <div class="flex flex-wrap gap-2 mb-4">
+            <span class="text-xs bg-g2-light g2-purple px-2 py-1 rounded-full font-medium">Icon-only</span>
+            <span class="text-xs bg-gray-100 text-gray-600 px-2 py-1 rounded-full font-medium">Floating utility bar</span>
+            <span class="text-xs bg-gray-100 text-gray-600 px-2 py-1 rounded-full font-medium">G2.ai prompt</span>
+          </div>
+          <p class="text-sm font-semibold g2-purple group-hover:underline">View version →</p>
+        </div>
+      </a>
+
+      <!-- V2: Current Design -->
+      <a href="nav-v2.html" class="group block bg-white rounded-2xl border border-gray-100 shadow-sm hover:shadow-md hover:border-purple-200 transition-all overflow-hidden">
+        <div class="bg-gray-50 px-6 py-8 border-b border-gray-100">
+          <!-- Mini nav preview -->
+          <div class="bg-white rounded-xl shadow-sm border border-gray-100 overflow-hidden">
+            <div class="h-8 bg-white border-b border-gray-100 flex items-center px-3 gap-2">
+              <span class="text-xs font-bold text-[#201f23]">MyG2</span>
+              <div class="w-px h-3 bg-gray-200"></div>
+              <div class="w-16 h-4 rounded bg-[#5746b2]/20 flex items-center px-1.5 gap-1">
+                <div class="w-2.5 h-2.5 rounded-sm bg-[#5746b2]/60"></div>
+                <div class="w-8 h-1.5 rounded bg-[#5746b2]/40"></div>
+              </div>
+              <div class="flex-1"></div>
+              <div class="w-20 h-4 rounded-md bg-gray-100"></div>
+            </div>
+            <div class="flex">
+              <div class="w-24 border-r border-gray-100 py-2 px-2 flex flex-col gap-0.5">
+                <div class="h-4 rounded px-1 flex items-center gap-1"><div class="w-2.5 h-2.5 rounded bg-gray-200"></div><div class="flex-1 h-1.5 bg-gray-100 rounded"></div></div>
+                <div class="h-4 rounded px-1 flex items-center gap-1"><div class="w-2.5 h-2.5 rounded bg-gray-200"></div><div class="flex-1 h-1.5 bg-gray-100 rounded"></div></div>
+                <div class="h-4 rounded bg-gray-100 px-1 flex items-center gap-1"><div class="w-2.5 h-2.5 rounded bg-[#5746b2]/30"></div><div class="flex-1 h-1.5 bg-[#5746b2]/20 rounded"></div></div>
+                <div class="h-4 rounded px-1 flex items-center gap-1"><div class="w-2.5 h-2.5 rounded bg-gray-200"></div><div class="flex-1 h-1.5 bg-gray-100 rounded"></div></div>
+              </div>
+              <div class="flex-1 p-3">
+                <div class="w-24 h-3 bg-gray-100 rounded mb-2"></div>
+                <div class="w-36 h-4 bg-gray-200 rounded"></div>
+              </div>
+            </div>
+          </div>
+        </div>
+        <div class="px-6 py-5">
+          <p class="text-gray-500 text-sm mb-4">Existing MyG2 nav pattern — single sidebar with text labels, product switcher in header, search + help top-right.</p>
+          <div class="flex flex-wrap gap-2 mb-4">
+            <span class="text-xs bg-g2-light g2-purple px-2 py-1 rounded-full font-medium">Current design</span>
+            <span class="text-xs bg-gray-100 text-gray-600 px-2 py-1 rounded-full font-medium">Text labels</span>
+            <span class="text-xs bg-gray-100 text-gray-600 px-2 py-1 rounded-full font-medium">Product switcher</span>
+          </div>
+          <p class="text-sm font-semibold g2-purple group-hover:underline">View version →</p>
+        </div>
+      </a>
+
+      <!-- V3: Two-Panel Nav -->
+      <a href="nav-v3.html" class="group block bg-white rounded-2xl border border-gray-100 shadow-sm hover:shadow-md hover:border-purple-200 transition-all overflow-hidden">
+        <div class="bg-[#1b1927] px-6 py-8 relative overflow-hidden">
+          <!-- Mini two-panel preview -->
+          <div class="flex gap-1 ml-0">
+            <!-- Main nav panel -->
+            <div class="w-20 bg-white/8 rounded-lg py-2 px-1.5 flex flex-col gap-1">
+              <div class="flex items-center gap-1 mb-1">
+                <div class="w-4 h-4 rounded-md bg-gradient-to-br from-teal-400 to-cyan-600 flex-shrink-0"></div>
+                <div class="flex-1 h-1.5 bg-white/20 rounded"></div>
+                <div class="w-2 h-2 text-white/30">
+                  <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3"><polyline points="6 9 12 15 18 9"/></svg>
+                </div>
+              </div>
+              <div class="h-3 rounded flex items-center gap-1 px-1"><div class="w-2 h-2 rounded-sm bg-white/15"></div><div class="flex-1 h-1 bg-white/10 rounded"></div></div>
+              <div class="h-3 rounded flex items-center gap-1 px-1"><div class="w-2 h-2 rounded-sm bg-white/15"></div><div class="flex-1 h-1 bg-white/10 rounded"></div></div>
+              <div class="h-3.5 rounded bg-[#2e2b48] flex items-center gap-1 px-1 border border-purple-500/20">
+                <div class="w-2 h-2 rounded-sm bg-purple-400/50"></div>
+                <div class="flex-1 h-1 bg-purple-300/30 rounded"></div>
+              </div>
+              <div class="h-3 rounded flex items-center gap-1 px-1"><div class="w-2 h-2 rounded-sm bg-white/15"></div><div class="flex-1 h-1 bg-white/10 rounded"></div></div>
+            </div>
+            <!-- Sub-nav panel -->
+            <div class="w-24 bg-white rounded-lg py-2 px-2 flex flex-col gap-1">
+              <div class="flex items-center gap-1.5 mb-1">
+                <div class="w-5 h-5 rounded-md bg-gradient-to-br from-blue-400 to-purple-500 flex-shrink-0"></div>
+                <div class="flex flex-col gap-0.5 flex-1">
+                  <div class="h-1.5 bg-gray-800 rounded w-8"></div>
+                  <div class="h-1 bg-gray-200 rounded w-full"></div>
+                </div>
+              </div>
+              <div class="h-3.5 rounded bg-[#f2f0f9] flex items-center gap-1 px-1.5">
+                <div class="w-2 h-2 rounded-sm bg-[#5746b2]/50"></div>
+                <div class="flex-1 h-1 bg-[#5746b2]/20 rounded"></div>
+              </div>
+              <div class="h-3 rounded flex items-center gap-1 px-1.5"><div class="w-2 h-2 rounded-sm bg-gray-200"></div><div class="flex-1 h-1 bg-gray-100 rounded"></div></div>
+              <div class="h-3 rounded flex items-center gap-1 px-1.5"><div class="w-2 h-2 rounded-sm bg-gray-200"></div><div class="flex-1 h-1 bg-gray-100 rounded"></div></div>
+              <div class="h-px bg-gray-100 my-0.5"></div>
+              <div class="h-3 rounded flex items-center gap-1 px-1.5"><div class="w-2 h-2 rounded-sm bg-gray-200"></div><div class="flex-1 h-1 bg-gray-100 rounded"></div></div>
+            </div>
+          </div>
+        </div>
+        <div class="px-6 py-5">
+          <p class="text-gray-500 text-sm mb-4">Two-panel redesign — dark main nav with product switcher + white contextual sub-nav. AI-forward search bar in header.</p>
+          <div class="flex flex-wrap gap-2 mb-4">
+            <span class="text-xs bg-g2-light g2-purple px-2 py-1 rounded-full font-medium">Two-panel</span>
+            <span class="text-xs bg-gray-100 text-gray-600 px-2 py-1 rounded-full font-medium">Dark sidebar</span>
+            <span class="text-xs bg-gray-100 text-gray-600 px-2 py-1 rounded-full font-medium">AI search</span>
+          </div>
+          <p class="text-sm font-semibold g2-purple group-hover:underline">View version →</p>
+        </div>
+      </a>
+
+      <!-- V4: Placeholder -->
       <div class="group block bg-white rounded-2xl border border-dashed border-gray-200 p-8 flex flex-col items-center justify-center text-center min-h-48">
-        <p class="text-sm text-gray-400">Versions coming soon</p>
+        <div class="w-10 h-10 rounded-xl bg-gray-100 flex items-center justify-center mb-3">
+          <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="#d1d5db" stroke-width="2" stroke-linecap="round">
+            <circle cx="12" cy="12" r="10"/>
+            <line x1="12" y1="8" x2="12" y2="16"/>
+            <line x1="8" y1="12" x2="16" y2="12"/>
+          </svg>
+        </div>
+        <p class="text-sm font-semibold text-gray-400 mb-1">V4 — Coming soon</p>
+        <p class="text-xs text-gray-300">Unexplained idea TBD</p>
       </div>
+
     </div>
 
     <div class="mt-12 bg-white rounded-2xl border border-gray-100 p-6">
