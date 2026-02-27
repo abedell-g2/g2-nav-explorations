@@ -548,7 +548,7 @@ function enterSection(id) {
   const tabBar = document.getElementById('tab-bar');
   tabBar.innerHTML = s.tabs.map((tab, i) =>
     `<button class="tab-pill text-sm font-semibold px-3 py-1.5 rounded-full text-[#6f6d78] hover:bg-gray-100 ${i === 0 ? 'is-active' : ''}"
-      onclick="selectTab(this, '${tab.replace(/'/g, "\\'")}', '${s.name.replace(/'/g, "\\'")}', '${s.bg}', \`${s.bigIcon.replace(/`/g, '\\`')}\`)"
+      onclick="selectTab(this, '${tab.replace(/'/g, "\\'")}', '${id}')"
     >${tab}</button>`
   ).join('');
 
@@ -589,10 +589,11 @@ function exitSection() {
   }, 200);
 }
 
-function selectTab(el, tabName, sectionName, bg, bigIcon) {
+function selectTab(el, tabName, sectionId) {
   document.querySelectorAll('.tab-pill').forEach(t => t.classList.remove('is-active'));
   el.classList.add('is-active');
-  setContentPlaceholder(tabName, sectionName, bg, bigIcon);
+  const s = SECTIONS[sectionId];
+  setContentPlaceholder(tabName, s.name, s.bg, s.bigIcon);
 }
 
 function setContentPlaceholder(tabName, sectionName, bg, bigIcon) {
