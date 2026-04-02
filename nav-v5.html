@@ -1,0 +1,699 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>MyG2 Nav · V5 — Focus Home</title>
+  <script src="https://cdn.tailwindcss.com"></script>
+  <link href="https://fonts.googleapis.com/css2?family=Figtree:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+  <style>
+    * { font-family: 'Figtree', sans-serif; }
+    body { margin: 0; }
+
+    /* ── Sidebar hover-expand (V3) ── */
+    #main-nav {
+      width: 56px;
+      overflow-x: hidden;
+      overflow-y: auto;
+      transition: width 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+    }
+    #main-nav:hover { width: 220px; }
+
+    .nav-label {
+      opacity: 0;
+      white-space: nowrap;
+      pointer-events: none;
+      transition: opacity 0.1s ease 0s;
+    }
+    #main-nav:hover .nav-label {
+      opacity: 1;
+      pointer-events: auto;
+      transition: opacity 0.18s ease 0.12s;
+    }
+
+    #main-nav .nav-item {
+      padding-left: 7px;
+      padding-right: 7px;
+      transition: padding-left 0.3s cubic-bezier(0.4, 0, 0.2, 1),
+                  padding-right 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+    }
+    #main-nav:hover .nav-item {
+      padding-left: 10px;
+      padding-right: 10px;
+    }
+    #main-nav .switcher-btn {
+      padding-left: 0;
+      padding-right: 0;
+      transition: padding-left 0.3s cubic-bezier(0.4, 0, 0.2, 1),
+                  padding-right 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+    }
+    #main-nav:hover .switcher-btn {
+      padding-left: 8px;
+      padding-right: 8px;
+    }
+
+    /* ── Section view transitions (V4) ── */
+    #home-view { transition: opacity 0.2s ease; }
+    #section-view {
+      opacity: 0;
+      transition: opacity 0.25s ease;
+      pointer-events: none;
+    }
+    #section-view.is-visible { opacity: 1; pointer-events: auto; }
+
+    /* ── Tab pills ── */
+    .tab-pill {
+      transition: background-color 0.12s ease, color 0.12s ease;
+      white-space: nowrap;
+      flex-shrink: 0;
+    }
+    .tab-pill.is-active { background-color: #ebe9f6; color: #5746b2; }
+    #tab-bar { scrollbar-width: none; }
+    #tab-bar::-webkit-scrollbar { display: none; }
+
+    /* ── Card hovers ── */
+    .action-card {
+      transition: transform 0.15s ease, box-shadow 0.15s ease;
+    }
+    .action-card:hover {
+      transform: translateY(-2px);
+      box-shadow: 0 12px 32px rgba(32,31,35,0.1);
+    }
+    .quick-link {
+      transition: transform 0.12s ease, box-shadow 0.12s ease, border-color 0.12s ease;
+      cursor: pointer;
+    }
+    .quick-link:hover {
+      transform: translateY(-1px);
+      box-shadow: 0 4px 12px rgba(32,31,35,0.08);
+      border-color: #e0dcf7;
+    }
+  </style>
+</head>
+<body class="h-screen flex flex-col overflow-hidden">
+
+  <!-- ════════════════════════
+       HEADER
+  ════════════════════════ -->
+  <header class="bg-white flex items-center h-14 px-5 gap-4 flex-shrink-0"
+    style="border-bottom: 0.5px solid #dfdfe2; box-shadow: 0 1px 2px rgba(32,31,35,0.06);">
+
+    <div class="flex items-center gap-2 flex-shrink-0">
+      <svg width="28" height="28" viewBox="0 0 36 36" fill="none">
+        <circle cx="18" cy="18" r="18" fill="#ff492c"/>
+        <text x="18" y="24" text-anchor="middle" font-family="Figtree,sans-serif" font-weight="800" font-size="18" fill="white">G</text>
+      </svg>
+      <span class="text-base font-extrabold text-[#ff492c] tracking-wide">MyG2</span>
+    </div>
+
+    <div class="flex-1 flex justify-center px-8">
+      <div class="relative w-full max-w-xl">
+        <div class="absolute inset-y-0 left-3 flex items-center pointer-events-none">
+          <svg width="15" height="15" viewBox="0 0 24 24" fill="none">
+            <path d="M12 3L13.2 10.8L21 12L13.2 13.2L12 21L10.8 13.2L3 12L10.8 10.8Z" fill="#ff492c"/>
+            <path d="M19 5L19.6 8L22 8.6L19.6 9.2L19 12L18.4 9.2L16 8.6L18.4 8Z" fill="#ff492c" opacity="0.6"/>
+          </svg>
+        </div>
+        <input type="text" placeholder="Find or ask anything..."
+          class="w-full h-10 bg-[#fafafa] rounded-full pl-9 pr-4 text-sm text-[#6f6d78] focus:outline-none focus:border-[#5746b2] focus:ring-1 focus:ring-[#5746b2]"
+          style="border: 0.5px solid #dfdfe2;">
+      </div>
+    </div>
+
+    <div class="flex items-center gap-3 flex-shrink-0">
+      <button class="w-8 h-8 rounded-full flex items-center justify-center hover:bg-gray-100 transition-colors text-gray-400">
+        <svg width="17" height="17" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round">
+          <circle cx="12" cy="12" r="10"/>
+          <path d="M9.09 9a3 3 0 015.83 1c0 2-3 3-3 3"/>
+          <circle cx="12" cy="17" r="0.5" fill="currentColor"/>
+        </svg>
+      </button>
+      <button class="relative w-8 h-8 rounded-full flex items-center justify-center hover:bg-gray-100 transition-colors text-gray-400">
+        <svg width="17" height="17" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round">
+          <path d="M18 8A6 6 0 006 8c0 7-3 9-3 9h18s-3-2-3-9"/>
+          <path d="M13.73 21a2 2 0 01-3.46 0"/>
+        </svg>
+        <span class="absolute top-0 right-0.5 w-4 h-4 bg-[#ff492c] rounded-full border border-white flex items-center justify-center">
+          <span class="text-white text-[9px] font-bold leading-none">1</span>
+        </span>
+      </button>
+      <div class="w-px h-6 bg-[#dfdfe2]"></div>
+      <button class="flex items-center gap-2 hover:opacity-80 transition-opacity">
+        <div class="w-8 h-8 rounded-full bg-[#1b1927] flex items-center justify-center flex-shrink-0">
+          <span class="text-white text-xs font-bold">JA</span>
+        </div>
+        <span class="text-sm font-semibold text-[#201f23]">Hi, Jan</span>
+        <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="#9ca3af" stroke-width="2.5" stroke-linecap="round">
+          <polyline points="6 9 12 15 18 9"/>
+        </svg>
+      </button>
+    </div>
+  </header>
+
+  <!-- Body -->
+  <div class="flex flex-1 overflow-hidden">
+
+    <!-- ════════════════════════
+         DARK HOVER-EXPAND SIDEBAR (V3 nav, V3 sections)
+    ════════════════════════ -->
+    <nav id="main-nav" class="flex flex-col flex-shrink-0 h-full"
+      style="background: #1b1927; border-right: 1px solid rgba(255,255,255,0.06);">
+
+      <!-- Product switcher -->
+      <div class="px-3 pt-3 pb-1">
+        <button class="switcher-btn w-full flex items-center gap-2.5 py-2 rounded-lg hover:bg-white/8 transition-colors">
+          <div class="w-8 h-8 rounded-lg flex items-center justify-center flex-shrink-0 bg-gradient-to-br from-teal-400 to-cyan-600">
+            <svg width="16" height="16" viewBox="0 0 24 24" fill="none">
+              <path d="M3 9l9-7 9 7v11a2 2 0 01-2 2H5a2 2 0 01-2-2z" fill="white" fill-opacity="0.9"/>
+              <polyline points="9 22 9 12 15 12 15 22" stroke="rgba(255,255,255,0.6)" stroke-width="1.5" fill="none"/>
+            </svg>
+          </div>
+          <div class="flex flex-col items-start min-w-0 flex-1 nav-label">
+            <span class="text-sm font-semibold text-white truncate leading-tight">ACME Cloud</span>
+            <span class="text-[10px] font-semibold text-green-400 leading-tight mt-0.5 bg-green-900/50 px-1.5 py-0.5 rounded-full">Core</span>
+          </div>
+          <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="rgba(255,255,255,0.4)" stroke-width="2.5" stroke-linecap="round" class="flex-shrink-0 nav-label">
+            <polyline points="6 9 12 15 18 9"/>
+          </svg>
+        </button>
+      </div>
+
+      <div class="flex flex-col gap-0.5 px-3 py-2 flex-1">
+
+        <!-- Dashboard — active -->
+        <button id="nav-dashboard" onclick="goHome()"
+          class="nav-item w-full flex items-center gap-2.5 py-2 rounded-lg text-sm font-semibold bg-[#2e2b48] text-[#a89de8]"
+          style="border: 1px solid rgba(168,157,232,0.15);">
+          <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.75" stroke-linecap="round" class="flex-shrink-0">
+            <rect x="3" y="3" width="7" height="7" rx="1.5"/>
+            <rect x="14" y="3" width="7" height="7" rx="1.5"/>
+            <rect x="3" y="14" width="7" height="7" rx="1.5"/>
+            <rect x="14" y="14" width="7" height="7" rx="1.5"/>
+          </svg>
+          <span class="nav-label">Dashboard</span>
+        </button>
+
+        <!-- Product Profile -->
+        <button onclick="enterSection('product-profile')"
+          class="nav-item w-full flex items-center gap-2.5 py-2 rounded-lg text-sm text-white/60 hover:text-white hover:bg-white/8 transition-colors">
+          <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.75" stroke-linecap="round" class="flex-shrink-0">
+            <rect x="3" y="3" width="18" height="18" rx="2"/>
+            <circle cx="9" cy="9" r="2"/>
+            <path d="M3 20l4-4 3 3 4-5 4 6"/>
+          </svg>
+          <span class="nav-label">Product Profile</span>
+        </button>
+
+        <!-- Reviews -->
+        <button onclick="enterSection('reviews')"
+          class="nav-item w-full flex items-center gap-2.5 py-2 rounded-lg text-sm text-white/60 hover:text-white hover:bg-white/8 transition-colors">
+          <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.75" stroke-linecap="round" class="flex-shrink-0">
+            <polygon points="12 2 15.09 8.26 22 9.27 17 14.14 18.18 21.02 12 17.77 5.82 21.02 7 14.14 2 9.27 8.91 8.26 12 2"/>
+          </svg>
+          <span class="nav-label">Reviews</span>
+        </button>
+
+        <!-- Marketing Tools -->
+        <button onclick="enterSection('marketing-tools')"
+          class="nav-item w-full flex items-center gap-2.5 py-2 rounded-lg text-sm text-white/60 hover:text-white hover:bg-white/8 transition-colors">
+          <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.75" stroke-linecap="round" class="flex-shrink-0">
+            <path d="M3 11l19-9-9 19-2-8-8-2z"/>
+          </svg>
+          <span class="nav-label">Marketing Tools</span>
+        </button>
+
+        <!-- Integrations -->
+        <button onclick="enterSection('integrations')"
+          class="nav-item w-full flex items-center gap-2.5 py-2 rounded-lg text-sm text-white/60 hover:text-white hover:bg-white/8 transition-colors">
+          <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.75" stroke-linecap="round" class="flex-shrink-0">
+            <path d="M20.59 13.41l-7.17 7.17a2 2 0 01-2.83 0L2 12V2h10l8.59 8.59a2 2 0 010 2.82z"/>
+            <line x1="7" y1="7" x2="7.01" y2="7"/>
+          </svg>
+          <span class="nav-label">Integrations</span>
+        </button>
+
+        <div class="h-px bg-white/10 my-1.5"></div>
+
+        <!-- Buyer Intent — locked -->
+        <button class="nav-item w-full flex items-center gap-2.5 py-2 rounded-lg text-sm text-white/35 hover:text-white/50 hover:bg-white/5 transition-colors">
+          <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.75" stroke-linecap="round" class="flex-shrink-0">
+            <path d="M12 2L4 8.5l2 12h12l2-12z"/>
+            <path d="M4 8.5h16M8 8.5L12 2l4 6.5"/>
+          </svg>
+          <span class="flex-1 nav-label">Buyer Intent</span>
+          <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" class="opacity-50 nav-label flex-shrink-0">
+            <rect x="3" y="11" width="18" height="11" rx="2" ry="2"/>
+            <path d="M7 11V7a5 5 0 0110 0v4"/>
+          </svg>
+        </button>
+
+        <!-- Market Intelligence — locked -->
+        <button class="nav-item w-full flex items-center gap-2.5 py-2 rounded-lg text-sm text-white/35 hover:text-white/50 hover:bg-white/5 transition-colors">
+          <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.75" stroke-linecap="round" class="flex-shrink-0">
+            <circle cx="12" cy="12" r="10"/>
+            <path d="M2 12h20M12 2a15.3 15.3 0 014 10 15.3 15.3 0 01-4 10 15.3 15.3 0 01-4-10 15.3 15.3 0 014-10z"/>
+          </svg>
+          <span class="flex-1 nav-label">Market Intelligence</span>
+          <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" class="opacity-50 nav-label flex-shrink-0">
+            <rect x="3" y="11" width="18" height="11" rx="2" ry="2"/>
+            <path d="M7 11V7a5 5 0 0110 0v4"/>
+          </svg>
+        </button>
+
+        <div class="h-px bg-white/10 my-1.5"></div>
+
+        <!-- Payments -->
+        <button onclick="enterSection('payments')"
+          class="nav-item w-full flex items-center gap-2.5 py-2 rounded-lg text-sm text-white/60 hover:text-white hover:bg-white/8 transition-colors">
+          <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.75" stroke-linecap="round" class="flex-shrink-0">
+            <rect x="1" y="4" width="22" height="16" rx="2" ry="2"/>
+            <line x1="1" y1="10" x2="23" y2="10"/>
+          </svg>
+          <span class="nav-label">Payments</span>
+        </button>
+
+        <!-- Org Settings -->
+        <button onclick="enterSection('org-settings')"
+          class="nav-item w-full flex items-center gap-2.5 py-2 rounded-lg text-sm text-white/60 hover:text-white hover:bg-white/8 transition-colors">
+          <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.75" stroke-linecap="round" class="flex-shrink-0">
+            <path d="M17 21v-2a4 4 0 00-4-4H5a4 4 0 00-4 4v2"/>
+            <circle cx="9" cy="7" r="4"/>
+            <path d="M23 21v-2a4 4 0 00-3-3.87"/>
+            <path d="M16 3.13a4 4 0 010 7.75"/>
+          </svg>
+          <span class="nav-label">Org Settings</span>
+        </button>
+
+      </div>
+    </nav>
+
+    <!-- ════════════════════════
+         MAIN CONTENT
+    ════════════════════════ -->
+    <div id="main-container" class="flex-1 flex flex-col overflow-hidden relative">
+
+      <!-- ── HOME VIEW ── -->
+      <div id="home-view" class="flex-1 overflow-auto bg-[#f5f4fb]">
+        <div class="max-w-5xl mx-auto px-8 py-12">
+
+          <!-- Greeting -->
+          <div class="mb-10">
+            <p class="text-xs font-bold tracking-widest uppercase text-[#b0adb8] mb-2">ACME Cloud · MyG2</p>
+            <h1 class="text-2xl font-bold text-[#201f23] mb-1.5">Good morning, Jan 👋</h1>
+            <p class="text-sm text-[#6f6d78]">Here's where to focus today.</p>
+          </div>
+
+          <!-- ── Two primary cards ── -->
+          <div class="grid gap-5 mb-8" style="grid-template-columns: 3fr 2fr;">
+
+            <!-- CARD 1: Reviews (primary) -->
+            <div class="action-card bg-white rounded-2xl border border-gray-100 shadow-sm p-7 flex flex-col">
+
+              <div class="flex items-center justify-between mb-5">
+                <span class="inline-flex items-center gap-1.5 bg-[#fff3f0] text-[#ff492c] text-[11px] font-bold px-2.5 py-1 rounded-full">
+                  <svg width="10" height="10" viewBox="0 0 24 24" fill="#ff492c">
+                    <polygon points="12 2 15.09 8.26 22 9.27 17 14.14 18.18 21.02 12 17.77 5.82 21.02 7 14.14 2 9.27 8.91 8.26 12 2"/>
+                  </svg>
+                  Start here
+                </span>
+                <span class="text-[11px] font-medium text-[#b0adb8]">0 reviews collected</span>
+              </div>
+
+              <h2 class="text-xl font-bold text-[#201f23] leading-snug mb-2">Turn happy customers<br>into real reviews</h2>
+              <p class="text-sm text-[#6f6d78] leading-relaxed mb-6">Run a Review Contest — set a gift card incentive and share a link. No email list needed, no waiting on G2 to send campaigns on your behalf.</p>
+
+              <ul class="space-y-2.5 mb-7 flex-1">
+                <li class="flex items-start gap-2.5 text-sm text-[#4c4b53]">
+                  <svg width="16" height="16" viewBox="0 0 24 24" fill="none" class="flex-shrink-0 mt-0.5">
+                    <circle cx="12" cy="12" r="10" fill="#dcfce7"/>
+                    <path d="M8 12l3 3 5-5" stroke="#16a34a" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+                  </svg>
+                  Offer Visa, Amazon, or Starbucks gift cards as incentives
+                </li>
+                <li class="flex items-start gap-2.5 text-sm text-[#4c4b53]">
+                  <svg width="16" height="16" viewBox="0 0 24 24" fill="none" class="flex-shrink-0 mt-0.5">
+                    <circle cx="12" cy="12" r="10" fill="#dcfce7"/>
+                    <path d="M8 12l3 3 5-5" stroke="#16a34a" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+                  </svg>
+                  Set your own review goal and budget
+                </li>
+                <li class="flex items-start gap-2.5 text-sm text-[#4c4b53]">
+                  <svg width="16" height="16" viewBox="0 0 24 24" fill="none" class="flex-shrink-0 mt-0.5">
+                    <circle cx="12" cy="12" r="10" fill="#dcfce7"/>
+                    <path d="M8 12l3 3 5-5" stroke="#16a34a" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+                  </svg>
+                  Track results by channel or team member with UTM links
+                </li>
+              </ul>
+
+              <div>
+                <button class="bg-[#ff492c] text-white font-bold text-sm px-6 py-3 rounded-full hover:bg-[#e03d22] transition-colors inline-flex items-center gap-2">
+                  Launch a Review Contest
+                  <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="white" stroke-width="2.5" stroke-linecap="round">
+                    <path d="M5 12h14M12 5l7 7-7 7"/>
+                  </svg>
+                </button>
+                <p class="text-[11px] text-[#b0adb8] mt-2.5">Takes less than 5 minutes to set up</p>
+              </div>
+            </div>
+
+            <!-- CARD 2: Profile (secondary) -->
+            <div class="action-card bg-white rounded-2xl border border-gray-100 shadow-sm p-7 flex flex-col">
+
+              <div class="flex items-center justify-between mb-1.5">
+                <h2 class="text-base font-bold text-[#201f23]">Complete Your Profile</h2>
+                <span class="text-xs font-semibold text-[#5746b2]">3 of 7</span>
+              </div>
+
+              <!-- Progress bar -->
+              <div class="h-1.5 bg-[#f3f3f3] rounded-full mb-4 overflow-hidden">
+                <div class="h-full rounded-full bg-gradient-to-r from-[#5746b2] to-[#7c6ce6]" style="width: 43%"></div>
+              </div>
+
+              <p class="text-xs text-[#6f6d78] leading-relaxed mb-5">Buyers look at your profile before reaching out. A complete profile can significantly increase click-throughs and conversions.</p>
+
+              <!-- Checklist -->
+              <ul class="space-y-2.5 flex-1 mb-6">
+                <li class="flex items-center gap-2.5">
+                  <div class="w-4 h-4 rounded-full border-2 border-[#ff492c] bg-[#fff5f4] flex items-center justify-center flex-shrink-0">
+                    <div class="w-1.5 h-1.5 rounded-full bg-[#ff492c]"></div>
+                  </div>
+                  <span class="text-sm font-medium text-[#201f23]">Add your product logo</span>
+                </li>
+                <li class="flex items-center gap-2.5">
+                  <div class="w-4 h-4 rounded-full border-2 border-[#ff492c] bg-[#fff5f4] flex items-center justify-center flex-shrink-0">
+                    <div class="w-1.5 h-1.5 rounded-full bg-[#ff492c]"></div>
+                  </div>
+                  <span class="text-sm font-medium text-[#201f23]">Write a product description</span>
+                </li>
+                <li class="flex items-center gap-2.5">
+                  <div class="w-4 h-4 rounded-full border-2 border-[#ff492c] bg-[#fff5f4] flex items-center justify-center flex-shrink-0">
+                    <div class="w-1.5 h-1.5 rounded-full bg-[#ff492c]"></div>
+                  </div>
+                  <span class="text-sm font-medium text-[#201f23]">Add screenshots</span>
+                </li>
+                <li class="flex items-center gap-2.5">
+                  <div class="w-4 h-4 rounded-full border-2 border-[#dfdfe2] bg-white flex items-center justify-center flex-shrink-0">
+                    <div class="w-1.5 h-1.5 rounded-full bg-[#dfdfe2]"></div>
+                  </div>
+                  <span class="text-sm text-[#b0adb8]">Set a call-to-action button</span>
+                </li>
+
+                <li class="flex items-center gap-2.5 pt-1">
+                  <div class="w-px h-3 bg-gray-100 ml-1.5"></div>
+                </li>
+
+                <li class="flex items-center gap-2.5">
+                  <svg width="16" height="16" viewBox="0 0 24 24" fill="none" class="flex-shrink-0">
+                    <circle cx="12" cy="12" r="10" fill="#dcfce7"/>
+                    <path d="M8 12l3 3 5-5" stroke="#16a34a" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+                  </svg>
+                  <span class="text-sm text-[#b0adb8] line-through">Product name</span>
+                </li>
+                <li class="flex items-center gap-2.5">
+                  <svg width="16" height="16" viewBox="0 0 24 24" fill="none" class="flex-shrink-0">
+                    <circle cx="12" cy="12" r="10" fill="#dcfce7"/>
+                    <path d="M8 12l3 3 5-5" stroke="#16a34a" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+                  </svg>
+                  <span class="text-sm text-[#b0adb8] line-through">Categories set</span>
+                </li>
+                <li class="flex items-center gap-2.5">
+                  <svg width="16" height="16" viewBox="0 0 24 24" fill="none" class="flex-shrink-0">
+                    <circle cx="12" cy="12" r="10" fill="#dcfce7"/>
+                    <path d="M8 12l3 3 5-5" stroke="#16a34a" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+                  </svg>
+                  <span class="text-sm text-[#b0adb8] line-through">Pricing added</span>
+                </li>
+              </ul>
+
+              <button onclick="enterSection('product-profile')"
+                class="w-full bg-[#5746b2] text-white font-bold text-sm px-5 py-3 rounded-full hover:bg-[#4a3a9e] transition-colors">
+                Complete Profile →
+              </button>
+            </div>
+
+          </div>
+
+          <!-- ── Quick links ── -->
+          <div>
+            <p class="text-xs font-bold tracking-widest uppercase text-[#b0adb8] mb-3">Explore</p>
+            <div class="grid grid-cols-4 gap-3">
+
+              <button onclick="enterSection('reviews')" class="quick-link bg-white rounded-xl border border-gray-100 shadow-sm p-4 text-left">
+                <div class="w-8 h-8 rounded-lg bg-[#fef9ee] flex items-center justify-center mb-2.5">
+                  <svg width="17" height="17" viewBox="0 0 24 24" fill="none">
+                    <polygon points="12 2 15.09 8.26 22 9.27 17 14.14 18.18 21.02 12 17.77 5.82 21.02 7 14.14 2 9.27 8.91 8.26 12 2" fill="#fbbf24" fill-opacity="0.35" stroke="#fbbf24" stroke-width="1.5"/>
+                  </svg>
+                </div>
+                <p class="text-sm font-semibold text-[#201f23]">Reviews</p>
+                <p class="text-[11px] text-[#9ca3af] mt-0.5 leading-snug">Activity &amp; campaigns</p>
+              </button>
+
+              <button onclick="enterSection('marketing-tools')" class="quick-link bg-white rounded-xl border border-gray-100 shadow-sm p-4 text-left">
+                <div class="w-8 h-8 rounded-lg bg-[#ecfeff] flex items-center justify-center mb-2.5">
+                  <svg width="17" height="17" viewBox="0 0 24 24" fill="none">
+                    <path d="M3 11l19-9-9 19-2-8-8-2z" fill="#06b6d4" fill-opacity="0.25" stroke="#06b6d4" stroke-width="1.5" stroke-linejoin="round"/>
+                  </svg>
+                </div>
+                <p class="text-sm font-semibold text-[#201f23]">Marketing Tools</p>
+                <p class="text-[11px] text-[#9ca3af] mt-0.5 leading-snug">Badges &amp; content</p>
+              </button>
+
+              <button class="quick-link bg-white rounded-xl border border-gray-100 shadow-sm p-4 text-left" style="opacity:0.55; cursor:default;">
+                <div class="w-8 h-8 rounded-lg bg-[#eef2ff] flex items-center justify-center mb-2.5">
+                  <svg width="17" height="17" viewBox="0 0 24 24" fill="none">
+                    <path d="M12 2L4 8.5l2 12h12l2-12z" fill="#6366f1" fill-opacity="0.15" stroke="#6366f1" stroke-width="1.5" stroke-linejoin="round"/>
+                    <path d="M4 8.5h16M8 8.5L12 2l4 6.5" stroke="#6366f1" stroke-width="1.5" stroke-linejoin="round"/>
+                  </svg>
+                </div>
+                <div class="flex items-center gap-1.5">
+                  <p class="text-sm font-semibold text-[#201f23]">Buyer Intent</p>
+                  <svg width="11" height="11" viewBox="0 0 24 24" fill="none" stroke="#9ca3af" stroke-width="2"><rect x="3" y="11" width="18" height="11" rx="2"/><path d="M7 11V7a5 5 0 0110 0v4"/></svg>
+                </div>
+                <p class="text-[11px] text-[#9ca3af] mt-0.5 leading-snug">Upgrade to unlock</p>
+              </button>
+
+              <button onclick="enterSection('org-settings')" class="quick-link bg-white rounded-xl border border-gray-100 shadow-sm p-4 text-left">
+                <div class="w-8 h-8 rounded-lg bg-[#f9fafb] flex items-center justify-center mb-2.5">
+                  <svg width="17" height="17" viewBox="0 0 24 24" fill="none" stroke="#6b7280" stroke-width="1.75">
+                    <circle cx="12" cy="12" r="3"/>
+                    <path d="M19.4 15a1.65 1.65 0 00.33 1.82l.06.06a2 2 0 010 2.83 2 2 0 01-2.83 0l-.06-.06a1.65 1.65 0 00-1.82-.33 1.65 1.65 0 00-1 1.51V21a2 2 0 01-4 0v-.09A1.65 1.65 0 009 19.4a1.65 1.65 0 00-1.82.33l-.06.06a2 2 0 01-2.83 0 2 2 0 010-2.83l.06.06A1.65 1.65 0 004.68 15a1.65 1.65 0 00-1.51-1H3a2 2 0 010-4h.09A1.65 1.65 0 004.6 9a1.65 1.65 0 00-.33-1.82l-.06.06a2 2 0 010-2.83 2 2 0 012.83 0l.06.06A1.65 1.65 0 009 4.68a1.65 1.65 0 001-1.51V3a2 2 0 014 0v.09a1.65 1.65 0 001 1.51 1.65 1.65 0 001.82-.33l.06-.06a2 2 0 012.83 0 2 2 0 010 2.83l-.06.06A1.65 1.65 0 0019.4 9a1.65 1.65 0 001.51 1H21a2 2 0 010 4h-.09a1.65 1.65 0 00-1.51 1z"/>
+                  </svg>
+                </div>
+                <p class="text-sm font-semibold text-[#201f23]">Settings</p>
+                <p class="text-[11px] text-[#9ca3af] mt-0.5 leading-snug">Team &amp; billing</p>
+              </button>
+
+            </div>
+          </div>
+
+        </div>
+      </div><!-- #home-view -->
+
+      <!-- ── SECTION VIEW ── -->
+      <div id="section-view" class="absolute inset-0 bg-[#f5f4fb] flex flex-col" style="display:none;">
+
+        <!-- Section header bar -->
+        <div class="bg-white flex items-center h-14 px-5 gap-3 flex-shrink-0"
+          style="border-bottom: 0.5px solid #dfdfe2; box-shadow: 0 1px 2px rgba(32,31,35,0.05);">
+          <button onclick="exitSection()"
+            class="flex items-center gap-1.5 text-sm font-semibold text-[#6f6d78] hover:text-[#201f23] transition-colors flex-shrink-0">
+            <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round">
+              <path d="M19 12H5M12 5l-7 7 7 7"/>
+            </svg>
+            Back
+          </button>
+          <div class="w-px h-5 bg-[#dfdfe2] flex-shrink-0"></div>
+          <div class="flex items-center gap-2.5 flex-shrink-0">
+            <div id="section-header-icon" class="w-7 h-7 rounded-lg flex items-center justify-center flex-shrink-0"></div>
+            <span id="section-header-title" class="text-base font-bold text-[#201f23]"></span>
+          </div>
+          <div class="flex-1"></div>
+          <div class="flex items-center gap-3 flex-shrink-0">
+            <button class="w-8 h-8 rounded-full flex items-center justify-center hover:bg-gray-100 transition-colors text-gray-400">
+              <svg width="17" height="17" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round">
+                <circle cx="12" cy="12" r="10"/>
+                <path d="M9.09 9a3 3 0 015.83 1c0 2-3 3-3 3"/>
+                <circle cx="12" cy="17" r="0.5" fill="currentColor"/>
+              </svg>
+            </button>
+            <button class="relative w-8 h-8 rounded-full flex items-center justify-center hover:bg-gray-100 transition-colors text-gray-400">
+              <svg width="17" height="17" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round">
+                <path d="M18 8A6 6 0 006 8c0 7-3 9-3 9h18s-3-2-3-9"/>
+                <path d="M13.73 21a2 2 0 01-3.46 0"/>
+              </svg>
+              <span class="absolute top-0 right-0.5 w-4 h-4 bg-[#ff492c] rounded-full border border-white flex items-center justify-center">
+                <span class="text-white text-[9px] font-bold leading-none">1</span>
+              </span>
+            </button>
+            <div class="w-px h-6 bg-[#dfdfe2]"></div>
+            <button class="flex items-center gap-2 hover:opacity-80 transition-opacity">
+              <div class="w-8 h-8 rounded-full bg-[#1b1927] flex items-center justify-center flex-shrink-0">
+                <span class="text-white text-xs font-bold">JA</span>
+              </div>
+              <span class="text-sm font-semibold text-[#201f23]">Hi, Jan</span>
+              <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="#9ca3af" stroke-width="2.5" stroke-linecap="round">
+                <polyline points="6 9 12 15 18 9"/>
+              </svg>
+            </button>
+          </div>
+        </div>
+
+        <!-- Tab bar -->
+        <div id="tab-bar" class="bg-white flex items-center h-12 px-4 gap-1 flex-shrink-0 overflow-x-auto"
+          style="border-bottom: 0.5px solid #dfdfe2;"></div>
+
+        <!-- Content placeholder -->
+        <div class="flex-1 overflow-auto p-8">
+          <div class="bg-white rounded-2xl border border-gray-100 max-w-4xl h-80 flex flex-col items-center justify-center gap-3">
+            <div id="content-icon" class="w-12 h-12 rounded-2xl flex items-center justify-center"></div>
+            <div class="text-center">
+              <p id="content-tab" class="text-base font-bold text-[#201f23] mb-1"></p>
+              <p id="content-section" class="text-sm text-[#9ca3af]"></p>
+            </div>
+          </div>
+        </div>
+
+      </div><!-- #section-view -->
+
+    </div><!-- #main-container -->
+  </div>
+
+  <!-- G2.ai floating prompt -->
+  <div style="position:fixed; bottom:20px; right:16px; z-index:100; box-shadow: 0 0 1px rgba(32,31,35,0.32), 0 18px 28px -4px rgba(32,31,35,0.15); border-radius: 12px;">
+    <div class="bg-white rounded-xl p-3 w-[320px]">
+      <div class="bg-[#fafafa] rounded-full h-11 flex items-center pl-2.5 pr-1 gap-2" style="border: 0.5px solid #dfdfe2;">
+        <svg width="17" height="17" viewBox="0 0 24 24" fill="none" class="flex-shrink-0">
+          <path d="M12 3L13.2 10.8L21 12L13.2 13.2L12 21L10.8 13.2L3 12L10.8 10.8Z" fill="#ff492c"/>
+          <path d="M19 5L19.6 8L22 8.6L19.6 9.2L19 12L18.4 9.2L16 8.6L18.4 8Z" fill="#ff492c" opacity="0.6"/>
+        </svg>
+        <div class="flex-1 min-w-0">
+          <span class="text-[#6f6d78] text-sm">Ask, find, or create with </span>
+          <span class="text-[#ff492c] text-sm font-bold">G2.ai</span>
+          <span class="text-[#6f6d78] text-sm">...</span>
+        </div>
+        <button class="w-9 h-9 rounded-full flex items-center justify-center flex-shrink-0"
+          style="background: linear-gradient(137deg, rgba(87,70,178,0.14) 14%, rgba(255,73,44,0.14) 88%), white;">
+          <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="#374151" stroke-width="2" stroke-linecap="round">
+            <path d="M12 1a3 3 0 00-3 3v8a3 3 0 006 0V4a3 3 0 00-3-3z"/>
+            <path d="M19 10v2a7 7 0 01-14 0v-2"/>
+            <line x1="12" y1="19" x2="12" y2="23"/>
+            <line x1="8" y1="23" x2="16" y2="23"/>
+          </svg>
+        </button>
+      </div>
+    </div>
+  </div>
+
+  <!-- Back to index -->
+  <a href="index.html" style="position:fixed; bottom:16px; left:64px; z-index:100;"
+    class="text-xs text-gray-400 hover:text-gray-600 bg-white rounded-full px-3 py-1.5 border border-gray-200 shadow-sm transition-colors">
+    ← All versions
+  </a>
+
+  <script>
+  const SECTIONS = {
+    'product-profile': {
+      name: 'Product Profile', bg: '#f2f0f9',
+      tabs: ['Product Info', 'Screenshots', 'Videos', 'Pricing', 'Features', 'Call-to-Action'],
+      icon: `<svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="#5746b2" stroke-width="1.75" stroke-linecap="round"><rect x="3" y="3" width="18" height="18" rx="2"/><circle cx="9" cy="9" r="2"/><path d="M3 20l4-4 3 3 4-5 4 6"/></svg>`,
+      bigIcon: `<svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="#5746b2" stroke-width="1.75" stroke-linecap="round"><rect x="3" y="3" width="18" height="18" rx="2"/><circle cx="9" cy="9" r="2"/><path d="M3 20l4-4 3 3 4-5 4 6"/></svg>`
+    },
+    reviews: {
+      name: 'Reviews', bg: '#fef9ee',
+      tabs: ['Review Activity', 'Review Campaigns', 'Collection Tools', 'Mentions', 'Latest Reviews'],
+      icon: `<svg width="16" height="16" viewBox="0 0 24 24" fill="none"><polygon points="12 2 15.09 8.26 22 9.27 17 14.14 18.18 21.02 12 17.77 5.82 21.02 7 14.14 2 9.27 8.91 8.26 12 2" fill="#fbbf24" fill-opacity="0.4" stroke="#fbbf24" stroke-width="1.5"/></svg>`,
+      bigIcon: `<svg width="24" height="24" viewBox="0 0 24 24" fill="none"><polygon points="12 2 15.09 8.26 22 9.27 17 14.14 18.18 21.02 12 17.77 5.82 21.02 7 14.14 2 9.27 8.91 8.26 12 2" fill="#fbbf24" fill-opacity="0.4" stroke="#fbbf24" stroke-width="1.75"/></svg>`
+    },
+    'marketing-tools': {
+      name: 'Marketing Tools', bg: '#ecfeff',
+      tabs: ['Trust Badges', 'Content Library', 'Widgets', 'Analytics'],
+      icon: `<svg width="16" height="16" viewBox="0 0 24 24" fill="none"><path d="M3 11l19-9-9 19-2-8-8-2z" fill="#06b6d4" fill-opacity="0.25" stroke="#06b6d4" stroke-width="1.5" stroke-linejoin="round"/></svg>`,
+      bigIcon: `<svg width="24" height="24" viewBox="0 0 24 24" fill="none"><path d="M3 11l19-9-9 19-2-8-8-2z" fill="#06b6d4" fill-opacity="0.25" stroke="#06b6d4" stroke-width="1.75" stroke-linejoin="round"/></svg>`
+    },
+    integrations: {
+      name: 'Integrations', bg: '#fff7ed',
+      tabs: ['Connected Apps', 'Marketplace', 'API Keys'],
+      icon: `<svg width="16" height="16" viewBox="0 0 24 24" fill="none"><path d="M20.59 13.41l-7.17 7.17a2 2 0 01-2.83 0L2 12V2h10l8.59 8.59a2 2 0 010 2.82z" fill="#f97316" fill-opacity="0.15" stroke="#f97316" stroke-width="1.5"/></svg>`,
+      bigIcon: `<svg width="24" height="24" viewBox="0 0 24 24" fill="none"><path d="M20.59 13.41l-7.17 7.17a2 2 0 01-2.83 0L2 12V2h10l8.59 8.59a2 2 0 010 2.82z" fill="#f97316" fill-opacity="0.15" stroke="#f97316" stroke-width="1.75"/></svg>`
+    },
+    payments: {
+      name: 'Payments', bg: '#f0fdf4',
+      tabs: ['Overview', 'Invoices', 'Billing History'],
+      icon: `<svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="#22c55e" stroke-width="1.5" stroke-linecap="round"><rect x="1" y="4" width="22" height="16" rx="2"/><line x1="1" y1="10" x2="23" y2="10"/></svg>`,
+      bigIcon: `<svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="#22c55e" stroke-width="1.75" stroke-linecap="round"><rect x="1" y="4" width="22" height="16" rx="2"/><line x1="1" y1="10" x2="23" y2="10"/></svg>`
+    },
+    'org-settings': {
+      name: 'Org Settings', bg: '#f9fafb',
+      tabs: ['Team', 'Profile', 'Security', 'Notifications'],
+      icon: `<svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="#6b7280" stroke-width="1.5" stroke-linecap="round"><path d="M17 21v-2a4 4 0 00-4-4H5a4 4 0 00-4 4v2"/><circle cx="9" cy="7" r="4"/><path d="M23 21v-2a4 4 0 00-3-3.87M16 3.13a4 4 0 010 7.75"/></svg>`,
+      bigIcon: `<svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="#6b7280" stroke-width="1.75" stroke-linecap="round"><path d="M17 21v-2a4 4 0 00-4-4H5a4 4 0 00-4 4v2"/><circle cx="9" cy="7" r="4"/><path d="M23 21v-2a4 4 0 00-3-3.87M16 3.13a4 4 0 010 7.75"/></svg>`
+    }
+  };
+
+  function enterSection(id) {
+    const s = SECTIONS[id];
+    if (!s) return;
+
+    const iconEl = document.getElementById('section-header-icon');
+    iconEl.style.background = s.bg;
+    iconEl.innerHTML = s.icon;
+    document.getElementById('section-header-title').textContent = s.name;
+
+    const tabBar = document.getElementById('tab-bar');
+    tabBar.innerHTML = s.tabs.map((tab, i) =>
+      `<button class="tab-pill text-sm font-semibold px-3 py-1.5 rounded-full text-[#6f6d78] hover:bg-gray-100 ${i === 0 ? 'is-active' : ''}"
+        onclick="selectTab(this, '${tab.replace(/'/g, "\\'")}', '${id}')"
+      >${tab}</button>`
+    ).join('');
+
+    setContentPlaceholder(s.tabs[0], s.name, s.bg, s.bigIcon);
+
+    const homeView = document.getElementById('home-view');
+    homeView.style.opacity = '0';
+    homeView.style.pointerEvents = 'none';
+
+    setTimeout(() => {
+      homeView.style.display = 'none';
+      const sv = document.getElementById('section-view');
+      sv.style.display = 'flex';
+      requestAnimationFrame(() => sv.classList.add('is-visible'));
+    }, 200);
+  }
+
+  function exitSection() {
+    const sv = document.getElementById('section-view');
+    sv.classList.remove('is-visible');
+    setTimeout(() => {
+      sv.style.display = 'none';
+      const homeView = document.getElementById('home-view');
+      homeView.style.display = '';
+      homeView.style.opacity = '0';
+      homeView.style.pointerEvents = 'auto';
+      requestAnimationFrame(() => {
+        homeView.style.transition = 'opacity 0.25s ease';
+        homeView.style.opacity = '1';
+      });
+    }, 200);
+  }
+
+  function goHome() { exitSection(); }
+
+  function selectTab(el, tabName, sectionId) {
+    document.querySelectorAll('.tab-pill').forEach(t => t.classList.remove('is-active'));
+    el.classList.add('is-active');
+    const s = SECTIONS[sectionId];
+    setContentPlaceholder(tabName, s.name, s.bg, s.bigIcon);
+  }
+
+  function setContentPlaceholder(tabName, sectionName, bg, bigIcon) {
+    const el = document.getElementById('content-icon');
+    el.style.background = bg;
+    el.innerHTML = bigIcon;
+    document.getElementById('content-tab').textContent = tabName;
+    document.getElementById('content-section').textContent = sectionName;
+  }
+  </script>
+
+</body>
+</html>
